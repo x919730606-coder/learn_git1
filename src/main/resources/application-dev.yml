@@ -22,9 +22,8 @@ spring:
   #redis
   data:
     redis:
-      host: 192.168.220.129
+      host: 192.168.154.100
       port: 6379
-      password: 123456
       database: 0
 mybatis:
   configuration: # 配置打印 MyBatis⽇志

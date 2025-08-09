@@ -64,7 +64,25 @@
           </if>
         </where>
     </select>
+
   
+  <select id="selectActivityById" resultMap="activityResultMap">
+    SELECT
+      ta.* ,
+      tu.id ownerId,
+      tu.name ownerName,
+      tc.id createById,
+      tc.name createByName,
+      te.id editById,
+      te.name editByName
+    FROM
+      t_activity ta
+        LEFT JOIN t_user tu ON ta.owner_id = tu.id
+        LEFT JOIN t_user tc ON ta.create_by = tc.id
+        LEFT JOIN t_user te ON ta.edit_by = te.id
+    where ta.id = #{id}
+  </select>
+
   <resultMap id="activityResultMap" type="com.bjpowernode.entity.TActivity">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
@@ -80,6 +98,14 @@
     <association property="ownerDo" javaType="com.bjpowernode.entity.TUser">
       <id column="ownerId" jdbcType="INTEGER" property="id" />
       <result column="ownerName" jdbcType="VARCHAR" property="name" />
+    </association>
+    <association property="createByDo" javaType="com.bjpowernode.entity.TUser">
+      <id column="createById" jdbcType="INTEGER" property="id" />
+      <result column="createByName" jdbcType="VARCHAR" property="name" />
+    </association>
+    <association property="editByDo" javaType="com.bjpowernode.entity.TUser">
+        <id column="editById" jdbcType="INTEGER" property="id" />
+        <result column="editByName" jdbcType="VARCHAR" property="name" />
     </association>
   </resultMap>
   

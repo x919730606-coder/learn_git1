@@ -6,4 +6,6 @@ import com.github.pagehelper.PageInfo;
 
 public interface ActivityService {
     PageInfo<TActivity> getActivitiesByPage(Integer current, ActivityQuery activityQuery);
+
+    TActivity getActivityById(Integer id);
 }

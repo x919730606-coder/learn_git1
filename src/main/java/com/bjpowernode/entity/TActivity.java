@@ -13,6 +13,8 @@ import java.util.Date;
 @Data
 public class TActivity implements Serializable {
     private TUser ownerDo;
+    private TUser createByDo;
+    private TUser editByDo;
     /**
      * 主键，自动增长，活动ID
      */

@@ -25,4 +25,10 @@ public class ActivityServiceImpl implements ActivityService {
         PageInfo<TActivity> pageInfo = new PageInfo<>(tList);
         return pageInfo;
     }
+
+    @Override
+    public TActivity getActivityById(Integer id) {
+        TActivity tActivity = tActivityMapper.selectActivityById(id);
+        return tActivity;
+    }
 }

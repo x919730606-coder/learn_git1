@@ -1,6 +1,7 @@
 package com.bjpowernode.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,13 @@ import java.util.List;
 public class TUser implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @JsonManagedReference
+    private TUser createByDo;
+    @JsonManagedReference
+    private TUser editByDo;
+    @JsonIgnore
+    private List<TRole> tRoleList;
 
     /**
      * 主键，自动增长，用户ID
@@ -129,27 +137,28 @@ public class TUser implements UserDetails, Serializable {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return this.loginAct;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNoExpired == 1;
+        return this.accountNoExpired != null && this.accountNoExpired == 1;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.accountNoLocked == 1;
+        return this.accountNoLocked != null && this.accountNoLocked == 1;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNoExpired == 1;
+        return this.credentialsNoExpired != null && this.credentialsNoExpired == 1;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.accountEnabled == 1;
+        return this.accountEnabled != null && this.accountEnabled == 1;
     }
 }

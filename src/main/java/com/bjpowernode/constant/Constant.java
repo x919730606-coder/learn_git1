@@ -12,4 +12,5 @@ public class Constant {
     //权限标识符命名：  [项目名:]模块名:功能名
     //redis的key的命名规范：   项目名:模块名:功能名[:唯一业务参数]
     public static final String REDIS_TOKEN_KEY = "security:user:login";
+    public static final Integer PAGE_SIZE = 10;
 }

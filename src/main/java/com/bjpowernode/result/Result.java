@@ -47,4 +47,7 @@ public class Result {
     public static Result FAIL() {
         return Result.builder().code(500).msg("失败").info(null).build();
     }
+    public static Result FAIL(String emsg) {
+        return Result.builder().code(500).msg("失败").info(null).build();
+    }
 }

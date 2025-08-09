@@ -1,6 +1,11 @@
 package com.bjpowernode.mapper;
 
+import com.bjpowernode.annotation.DataScope;
 import com.bjpowernode.entity.TActivity;
+import com.bjpowernode.query.ActivityQuery;
+import com.bjpowernode.query.BaseQuery;
+
+import java.util.List;
 
 public interface TActivityMapper {
 
@@ -15,5 +20,6 @@ public interface TActivityMapper {
     int updateByPrimaryKeySelective(TActivity record);
 
     int updateByPrimaryKey(TActivity record);
-
+    @DataScope(tableAlias = "ta" , columnName = "owner_id")
+    List<TActivity> selectByPage(BaseQuery baseQuery, ActivityQuery activityQuery);
 }

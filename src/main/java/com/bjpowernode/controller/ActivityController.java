@@ -1,0 +1,22 @@
+package com.bjpowernode.controller;
+
+import com.bjpowernode.entity.TActivity;
+import com.bjpowernode.query.ActivityQuery;
+import com.bjpowernode.result.Result;
+import com.bjpowernode.service.ActivityService;
+import com.github.pagehelper.PageInfo;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ActivityController {
+    @Resource
+    private ActivityService activityService;
+    @GetMapping("/api/activities")
+    public Result getActivities(Integer current ,ActivityQuery activityQuery){
+        PageInfo<TActivity> pageInfo = activityService.getActivitiesByPage(current,activityQuery);
+        return Result.OK(pageInfo);
+    }
+
+}

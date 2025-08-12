@@ -38,6 +38,115 @@
     from t_clue
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <!-- 修正版 resultMap（column 使用与下方 SQL alias 对应的驼峰名） -->
+  <resultMap id="clueResultMap" type="com.bjpowernode.entity.TClue">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="ownerId" jdbcType="INTEGER" property="ownerId"/>
+    <result column="activityId" jdbcType="INTEGER" property="activityId"/>
+    <result column="fullName" jdbcType="VARCHAR" property="fullName"/>
+    <result column="appellation" jdbcType="INTEGER" property="appellation"/>
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+    <result column="weixin" jdbcType="VARCHAR" property="weixin"/>
+    <result column="qq" jdbcType="VARCHAR" property="qq"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="age" jdbcType="INTEGER" property="age"/>
+    <result column="job" jdbcType="VARCHAR" property="job"/>
+    <result column="yearIncome" jdbcType="DECIMAL" property="yearIncome"/>
+    <result column="address" jdbcType="VARCHAR" property="address"/>
+    <result column="needLoan" jdbcType="INTEGER" property="needLoan"/>
+    <result column="intentionState" jdbcType="INTEGER" property="intentionState"/>
+    <result column="intentionProduct" jdbcType="INTEGER" property="intentionProduct"/>
+    <result column="state" jdbcType="INTEGER" property="state"/>
+    <result column="source" jdbcType="INTEGER" property="source"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="nextContactTime" jdbcType="TIMESTAMP" property="nextContactTime"/>
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="createBy" jdbcType="INTEGER" property="createBy"/>
+    <result column="editTime" jdbcType="TIMESTAMP" property="editTime"/>
+    <result column="editBy" jdbcType="INTEGER" property="editBy"/>
+
+    <association property="ownerDo" javaType="com.bjpowernode.entity.TUser">
+      <id property="id" column="ownerId"/>
+      <result property="name" column="ownerName"/>
+    </association>
+
+    <association property="activityDo" javaType="com.bjpowernode.entity.TActivity">
+      <id property="id" column="activityId"/>
+      <result property="name" column="activityName"/>
+    </association>
+
+    <association property="needLoanDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="needLoanId"/>
+      <result property="typeValue" column="needLoanValue" jdbcType="VARCHAR"/>
+    </association>
+
+    <association property="intentionStateDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="intentionStateId"/>
+      <result property="typeValue" column="intentionStateName"/>
+    </association>
+
+    <association property="intentionProductDo" javaType="com.bjpowernode.entity.TProduct">
+      <id property="id" column="productId"/>
+      <result property="name" column="productName"/>
+    </association>
+
+    <association property="stateDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="stateId"/>
+      <result property="typeValue" column="stateName"/>
+    </association>
+
+    <association property="sourceDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="sourceId"/>
+      <result property="typeValue" column="sourceName"/>
+    </association>
+
+    <association property="appellationDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="appellationId"/>
+      <result property="typeValue" column="appellationName"/>
+    </association>
+  </resultMap>
+
+  <!-- 修正版 select：注意 removed 重复 alias，joined 表只选需要的列并给唯一 alias -->
+  <select id="selectByPage" resultMap="clueResultMap">
+    SELECT
+    tc.* ,
+    tu.id ownerId,
+    tu.name ownerName,
+    ta.id activityId,
+    ta.name activityName,
+    tdv1.id appellationId,
+    tdv1.type_value appellationName,
+    tdv2.id needLoanId,
+    tdv2.type_value needLoanValue,
+    tdv3.id intentionstateId,
+    tdv3.type_value intentionStateName,
+    tp.id productId,
+    tp.`name` productName,
+    tdv4.id stateId,
+    tdv4.type_value stateName,
+    tdv5.id sourceId,
+    tdv5.type_value sourceName
+    FROM
+    t_clue tc
+    LEFT JOIN t_user tu ON tc.owner_id = tu.id
+    LEFT JOIN t_activity ta ON tc.activity_id = ta.id
+    LEFT JOIN t_dic_value tdv1 ON tc.appellation = tdv1.id
+    LEFT JOIN t_dic_value tdv2 ON tc.need_loan = tdv2.id
+    LEFT JOIN t_dic_value tdv3 ON tc.intention_state = tdv3.id
+    LEFT JOIN t_product tp ON tc.intention_product = tp.id
+    LEFT JOIN t_dic_value tdv4 ON tc.state = tdv4.id
+    LEFT JOIN t_dic_value tdv5 ON tc.source = tdv5.id
+
+
+    <where>
+      <if test="filterSQL != null">
+        ${filterSQL}
+      </if>
+    </where>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_clue
     where id = #{id,jdbcType=INTEGER}
@@ -205,6 +314,27 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="saveExcel" parameterType="java.util.List">
+    INSERT INTO t_clue (owner_id, activity_id, full_name,
+    appellation, phone, weixin,
+    qq, email, age, job,
+    year_income, address, need_loan,
+    intention_state, intention_product, `state`,
+    `source`, description, next_contact_time,
+    create_time, create_by)
+    VALUES
+    <foreach collection="clueDataList" item="clue" separator=",">
+      (#{clue.ownerId,jdbcType=INTEGER}, #{clue.activityId,jdbcType=INTEGER}, #{clue.fullName,jdbcType=VARCHAR},
+      #{clue.appellation,jdbcType=INTEGER}, #{clue.phone,jdbcType=VARCHAR}, #{clue.weixin,jdbcType=VARCHAR},
+      #{clue.qq,jdbcType=VARCHAR}, #{clue.email,jdbcType=VARCHAR}, #{clue.age,jdbcType=INTEGER}, #{clue.job,jdbcType=VARCHAR},
+      #{clue.yearIncome,jdbcType=DECIMAL}, #{clue.address,jdbcType=VARCHAR}, #{clue.needLoan,jdbcType=INTEGER},
+      #{clue.intentionState,jdbcType=INTEGER}, #{clue.intentionProduct,jdbcType=INTEGER}, #{clue.state,jdbcType=INTEGER},
+      #{clue.source,jdbcType=INTEGER}, #{clue.description,jdbcType=VARCHAR}, #{clue.nextContactTime,jdbcType=TIMESTAMP},
+      #{clue.createTime,jdbcType=TIMESTAMP}, #{clue.createBy,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.entity.TClue">
     update t_clue
     <set>

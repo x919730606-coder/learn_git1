@@ -11,6 +11,15 @@ import lombok.Data;
  */
 @Data
 public class TClue implements Serializable {
+
+    private TUser ownerDo;
+    private TActivity activityDo;
+    private TDicValue intentionStateDo;
+    private TProduct intentionProductDo;
+    private TDicValue needLoanDo;
+    private TDicValue stateDo;
+    private TDicValue sourceDo;
+    private TDicValue appellationDo;
     /**
      * 主键，自动增长，线索ID
      */

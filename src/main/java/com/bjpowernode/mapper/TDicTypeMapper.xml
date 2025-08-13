@@ -16,7 +16,26 @@
     from t_dic_type
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <resultMap id="dicTypeResultMap" type="com.bjpowernode.entity.TDicType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <collection property="dicValueList" ofType="com.bjpowernode.entity.TDicValue">
+      <id column="dicValueId" jdbcType="INTEGER" property="id" />
+      <result column="dicValueName" jdbcType="VARCHAR" property="typeValue" />
+    </collection>
+  </resultMap>
+    <select id="getDicTypes" resultMap="dicTypeResultMap">
+      SELECT
+        tdt.*,
+        tdv.id dicValueId,
+        tdv.type_value dicValueName
+      FROM
+        t_dic_type tdt
+          LEFT JOIN t_dic_value tdv ON tdt.type_code = tdv.type_code
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_dic_type
     where id = #{id,jdbcType=INTEGER}
   </delete>

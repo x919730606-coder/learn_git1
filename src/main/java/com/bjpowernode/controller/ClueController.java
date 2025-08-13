@@ -31,5 +31,10 @@ public class ClueController {
         return Result.OK();
     }
 
+    @GetMapping("/api/clue/{id}")
+    public Result getClueById(@PathVariable("id") Integer id){
+        TClue clue = clueService.getClueById(id);
+        return Result.OK(clue);
+    }
 }
 

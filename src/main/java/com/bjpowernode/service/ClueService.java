@@ -9,4 +9,6 @@ public interface ClueService {
     PageInfo<TClue> getClueByPage(Integer num);
 
     void importExcel(InputStream inputStream);
+
+    TClue getClueById(Integer id);
 }

@@ -8,12 +8,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @MapperScan(value = {"com.bjpowernode.mapper"})
 @SpringBootApplication
 public class DlykServerApplication implements CommandLineRunner {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+
+    public static final Map<String,Object> cacheMap = new HashMap<>();
 
     public static void main(String[] args) {
         SpringApplication.run(DlykServerApplication.class, args);

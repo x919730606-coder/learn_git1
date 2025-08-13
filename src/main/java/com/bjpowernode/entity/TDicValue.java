@@ -1,6 +1,8 @@
 package com.bjpowernode.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -9,6 +11,8 @@ import lombok.Data;
  */
 @Data
 public class TDicValue implements Serializable {
+
+
     /**
      * 主键，自动增长，字典值ID
      */

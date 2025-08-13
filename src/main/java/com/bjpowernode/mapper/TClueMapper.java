@@ -24,4 +24,6 @@ public interface TClueMapper {
     List<TClue> selectByPage(BaseQuery baseQuery);
 
     void saveExcel(List<ClueExcel> clueDataList);
+
+    TClue selectById(Integer id);
 }

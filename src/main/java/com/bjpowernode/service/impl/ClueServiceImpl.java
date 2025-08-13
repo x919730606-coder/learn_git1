@@ -38,4 +38,9 @@ public class ClueServiceImpl implements ClueService {
         Integer id = currentLoginUser.getId();
         EasyExcel.read(inputStream, ClueExcel.class, new ClueExcelListener(tClueMapper, id)).sheet().doRead();
     }
+
+    @Override
+    public TClue getClueById(Integer id) {
+        return tClueMapper.selectById(id);
+    }
 }

@@ -1,12 +1,9 @@
 package com.bjpowernode.service;
 
-import com.bjpowernode.entity.TDicType;
 import com.bjpowernode.entity.TDicValue;
 
 import java.util.List;
 
-public interface DicTypeService {
-    List<TDicType> getDicType();
-
+public interface DicValueService {
     List<TDicValue> getDicValueByTypeCode(String typeCode);
 }

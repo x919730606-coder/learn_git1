@@ -1,6 +1,7 @@
 package com.bjpowernode.mapper;
 
 import com.bjpowernode.entity.TDicType;
+import com.bjpowernode.entity.TDicValue;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface TDicTypeMapper {
     int updateByPrimaryKey(TDicType record);
 
     List<TDicType> getDicTypes();
+
+    List<TDicValue> getDicValueByTypeCode(String typeCode);
 }

@@ -35,7 +35,10 @@
         t_dic_type tdt
           LEFT JOIN t_dic_value tdv ON tdt.type_code = tdv.type_code
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="getDicValueByTypeCode" resultMap="BaseResultMap">
+    select * from t_dic_value where type_code = #{typeCode}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_dic_type
     where id = #{id,jdbcType=INTEGER}
   </delete>

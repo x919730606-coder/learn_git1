@@ -2,6 +2,8 @@ package com.bjpowernode.mapper;
 
 import com.bjpowernode.entity.TDicValue;
 
+import java.util.List;
+
 public interface TDicValueMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TDicValueMapper {
     int updateByPrimaryKeySelective(TDicValue record);
 
     int updateByPrimaryKey(TDicValue record);
+
+    List<TDicValue> getDicValueByTypeCode(String typeCode);
 }

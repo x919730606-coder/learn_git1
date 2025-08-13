@@ -140,6 +140,7 @@
 
 
     <where>
+      and tc.state != -1
       <if test="filterSQL != null">
         ${filterSQL}
       </if>

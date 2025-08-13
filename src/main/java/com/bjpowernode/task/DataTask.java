@@ -22,7 +22,7 @@ public class DataTask {
     @Resource
     private ProDuctService productService;
 
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = "0/60 * * * * ?")
     private void task (){
         List<TDicType> dicTypeList = dicTypeService.getDicType();
         for (TDicType dicType : dicTypeList){

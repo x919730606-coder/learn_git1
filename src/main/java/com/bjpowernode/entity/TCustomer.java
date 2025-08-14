@@ -10,6 +10,16 @@ import lombok.Data;
  */
 @Data
 public class TCustomer implements Serializable {
+
+    private TUser ownerDo;
+    private TActivity activityDo;
+    private TClue clueDo;
+    private TDicValue appellationDo;
+    private TDicValue intentionStateDo;
+    private TDicValue needLoanDo;
+    private TDicValue stateDo;
+    private TDicValue sourceDo;
+    private TProduct intentionProductDo;
     /**
      * 主键，自动增长，客户ID
      */

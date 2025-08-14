@@ -1,6 +1,10 @@
 package com.bjpowernode.mapper;
 
+import com.bjpowernode.annotation.DataScope;
 import com.bjpowernode.entity.TTran;
+import com.bjpowernode.query.TranQuery;
+
+import java.util.List;
 
 public interface TTranMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,7 @@ public interface TTranMapper {
     int updateByPrimaryKeySelective(TTran record);
 
     int updateByPrimaryKey(TTran record);
+
+
+    List<TTran> selectByPage();
 }

@@ -11,6 +11,10 @@ import lombok.Data;
  */
 @Data
 public class TTran implements Serializable {
+
+    private TClue clueDo;
+    private TDicValue stageDo;
+
     /**
      * 主键，自动增长，交易ID
      */

@@ -22,6 +22,66 @@
     from t_customer
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <resultMap id="customerResultMap" type="com.bjpowernode.entity.TCustomer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="clue_id" jdbcType="INTEGER" property="clueId" />
+    <result column="product" jdbcType="INTEGER" property="product" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="next_contact_time" jdbcType="TIMESTAMP" property="nextContactTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <association property="clueDo" javaType="com.bjpowernode.entity.TClue">
+      <id property="id" column="clueId" />
+      <result property="fullName" column="fullName" />
+      <result column="weixin" jdbcType="VARCHAR" property="weixin" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+    </association>
+    <association property="appellationDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="appellationId" />
+      <result property="typeValue" column="appellationName" />
+    </association>
+    <association property="intentionProductDo" javaType="com.bjpowernode.entity.TProduct">
+      <id property="id" column="productId" />
+      <result property="name" column="productName" />
+    </association>
+  </resultMap>
+    <select id="selectByPage" resultMap="customerResultMap">
+      SELECT
+        tcu.*,
+        tc.id clueId,
+        tc.full_name fullName,
+        tc.weixin weixin,
+        tc.phone phone,
+        tdv1.id appellationId,
+        tdv1.type_value appellationName,
+        tp.id productId,
+        tp.`name` productName
+      FROM
+        t_customer tcu
+          LEFT JOIN t_clue tc ON tcu.clue_id = tc.id
+          LEFT JOIN t_dic_value tdv1 on tc.appellation = tdv1.id
+          LEFT JOIN t_product tp on tcu.product = tp.id
+        <where>
+          <if test="idList != null">
+            tcu.id in
+              <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+              </foreach>
+          </if>
+        </where>
+    </select>
+  <select id="SelectById" resultMap="customerResultMap">
+    SELECT
+      tc.*,
+      tp.id productId,
+      tp.`name` productName
+    FROM
+      t_customer tc
+        JOIN t_product tp ON tc.product = tp.id
+    WHERE tc.id = #{id}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_customer
     where id = #{id,jdbcType=INTEGER}

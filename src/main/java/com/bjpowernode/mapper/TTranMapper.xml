@@ -40,6 +40,22 @@
     left join t_dic_value tdv ON tdv.id = tt.stage
 
   </select>
+  <select id="selectTranByid" resultMap="tranResultMap">
+    SELECT
+      tt.*,
+      tc1.id clueId,
+      tc1.full_name fullName,
+      tdv.id stageId,
+      tdv.type_value stageValue,
+    tdv.order `order`
+    FROM
+      t_tran tt
+        left join t_customer tc ON tt.customer_id = tc.id
+        left join t_clue tc1 ON tc1.id = tc.clue_id
+        left join t_dic_value tdv ON tdv.id = tt.stage
+    where
+        tt.id = #{id}
+  </select>
 
   <resultMap id="tranResultMap" type="com.bjpowernode.entity.TTran">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -61,6 +77,7 @@
     <association property="stageDo" javaType="com.bjpowernode.entity.TDicValue">
       <id property="id" column="stageId" />
       <result property="typeValue" column="stageValue" />
+      <result property="order" column="order" />
     </association>
   </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

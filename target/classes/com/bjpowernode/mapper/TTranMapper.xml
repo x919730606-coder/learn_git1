@@ -19,13 +19,68 @@
     id, tran_no, customer_id, money, expected_date, stage, description, next_contact_time, 
     create_time, create_by, edit_time, edit_by
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="tranResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_tran
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+  <select id="selectByPage" resultMap="tranResultMap">
+    SELECT
+    tt.*,
+    tc1.id clueId,
+    tc1.full_name fullName,
+    tdv.id stageId,
+    tdv.type_value stageValue
+    FROM
+    t_tran tt
+    left join t_customer tc ON tt.customer_id = tc.id
+    left join t_clue tc1 ON tc1.id = tc.clue_id
+    left join t_dic_value tdv ON tdv.id = tt.stage
+
+  </select>
+  <select id="selectTranByid" resultMap="tranResultMap">
+    SELECT
+      tt.*,
+      tc1.id clueId,
+      tc1.full_name fullName,
+      tdv.id stageId,
+      tdv.type_value stageValue,
+    tdv.order `order`
+    FROM
+      t_tran tt
+        left join t_customer tc ON tt.customer_id = tc.id
+        left join t_clue tc1 ON tc1.id = tc.clue_id
+        left join t_dic_value tdv ON tdv.id = tt.stage
+    where
+        tt.id = #{id}
+  </select>
+
+  <resultMap id="tranResultMap" type="com.bjpowernode.entity.TTran">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tran_no" jdbcType="VARCHAR" property="tranNo" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="expected_date" jdbcType="TIMESTAMP" property="expectedDate" />
+    <result column="stage" jdbcType="INTEGER" property="stage" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="next_contact_time" jdbcType="TIMESTAMP" property="nextContactTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <association property="clueDo" javaType="com.bjpowernode.entity.TClue">
+      <id property="id" column="clueId"  />
+      <result property="fullName" column="fullName" />
+    </association>
+    <association property="stageDo" javaType="com.bjpowernode.entity.TDicValue">
+      <id property="id" column="stageId" />
+      <result property="typeValue" column="stageValue" />
+      <result property="order" column="order" />
+    </association>
+  </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_tran
     where id = #{id,jdbcType=INTEGER}
   </delete>

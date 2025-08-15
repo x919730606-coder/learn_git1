@@ -21,4 +21,6 @@ public interface TTranMapper {
 
 
     List<TTran> selectByPage();
+
+    TTran selectTranByid(Integer id);
 }

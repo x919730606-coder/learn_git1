@@ -18,7 +18,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="getDicValueByTypeCode" resultMap="BaseResultMap">
-      select <include refid="Base_Column_List"/> from t_dic_value where type_code=#{typeCode}
+      select <include refid="Base_Column_List"/> from t_dic_value where type_code=#{typeCode} order by `order`
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_dic_value

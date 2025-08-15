@@ -178,6 +178,18 @@
     where
         tc.id = #{id}
   </select>
+    <select id="selectTotalClueCount" resultType="java.lang.Integer">
+      select count(0) from t_clue
+    </select>
+  <select id="selectClueSourceCount" resultType="com.bjpowernode.result.NameValueData">
+    SELECT
+      tdv.type_value name,
+      COUNT(0) value
+    FROM
+      t_clue tc
+      JOIN t_dic_value tdv ON tc.source = tdv.id
+    GROUP BY tdv.type_value
+  </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

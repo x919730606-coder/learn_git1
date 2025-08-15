@@ -56,6 +56,18 @@
     where
         tt.id = #{id}
   </select>
+  <select id="selectSuccessTranAmount" resultType="java.math.BigDecimal">
+    select sum(money) from t_tran where stage = 42
+  </select>
+  <select id="selectTotalTranAmount" resultType="java.math.BigDecimal">
+    select sum(money) from t_tran
+  </select>
+  <select id="selectTotalTranCount" resultType="java.lang.Integer">
+    select count(0) from t_tran
+  </select>
+  <select id="selectSuccessTranCount" resultType="java.lang.Integer">
+    select count(0) from t_tran where stage = 42
+  </select>
 
   <resultMap id="tranResultMap" type="com.bjpowernode.entity.TTran">
     <id column="id" jdbcType="INTEGER" property="id" />

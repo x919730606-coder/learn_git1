@@ -82,6 +82,20 @@
         LEFT JOIN t_user te ON ta.edit_by = te.id
     where ta.id = #{id}
   </select>
+    <select id="selectGoingActivityCount" resultType="java.lang.Integer">
+      SELECT
+      COUNT(0)
+      FROM
+      t_activity
+      WHERE
+      start_time &lt;= NOW() AND end_time > NOW()
+    </select>
+  <select id="selectTotalActivityCount" resultType="java.lang.Integer">
+    SELECT
+      COUNT(0)
+    FROM
+      t_activity
+  </select>
 
   <resultMap id="activityResultMap" type="com.bjpowernode.entity.TActivity">
     <id column="id" jdbcType="INTEGER" property="id" />

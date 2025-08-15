@@ -4,6 +4,7 @@ import com.bjpowernode.annotation.DataScope;
 import com.bjpowernode.entity.TClue;
 import com.bjpowernode.query.BaseQuery;
 import com.bjpowernode.query.ClueExcel;
+import com.bjpowernode.result.NameValueData;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface TClueMapper {
     void saveExcel(List<ClueExcel> clueDataList);
 
     TClue selectById(Integer id);
+
+    int selectTotalClueCount();
+
+    List<NameValueData> selectClueSourceCount();
 }

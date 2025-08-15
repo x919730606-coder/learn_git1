@@ -23,4 +23,6 @@ public interface TCustomerMapper {
     List<TCustomer> selectByPage(List<String> idList);
 
     TCustomer SelectById(Integer id);
+
+    int selectTotalCustomerCount();
 }

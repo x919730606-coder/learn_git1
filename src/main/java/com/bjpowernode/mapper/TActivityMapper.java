@@ -24,4 +24,8 @@ public interface TActivityMapper {
     List<TActivity> selectByPage(BaseQuery baseQuery, ActivityQuery activityQuery);
 
     TActivity selectActivityById(Integer id);
+
+    int selectGoingActivityCount();
+
+    int selectTotalActivityCount();
 }

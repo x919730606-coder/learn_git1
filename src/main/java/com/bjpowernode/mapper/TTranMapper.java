@@ -4,6 +4,7 @@ import com.bjpowernode.annotation.DataScope;
 import com.bjpowernode.entity.TTran;
 import com.bjpowernode.query.TranQuery;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface TTranMapper {
@@ -23,4 +24,12 @@ public interface TTranMapper {
     List<TTran> selectByPage();
 
     TTran selectTranByid(Integer id);
+
+    BigDecimal selectSuccessTranAmount();
+
+    BigDecimal selectTotalTranAmount();
+
+    int selectTotalTranCount();
+
+    int selectSuccessTranCount();
 }
